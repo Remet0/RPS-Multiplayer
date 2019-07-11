@@ -69,7 +69,7 @@ $('#playerOne').on('click', function(){
 
     database.ref('PlayerOne').once('value' ,function(snap){
         if(snap.exists()){
-            console.log('already chosen');
+            $('#pOneBtn').append('chosen');
             return;
         }else{
             database.ref('PlayerOne').set({

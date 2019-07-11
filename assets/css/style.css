@@ -1,0 +1,55 @@
+#content{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+#instructions{
+    font-size: 16px;
+    font-weight: bold;
+}
+form{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#playerWrap{
+    display: flex;
+    width: 100%;
+}
+#pOneBtn{
+    width: 250px;
+    height: 200px;
+    border: solid 2px black;
+    margin: 0 auto;
+    margin-right: 50px;
+
+}
+#usernameForm{
+    margin-bottom: 10px;
+}
+#pTwoBtn{
+    width: 250px;
+    height: 200px;
+    border: solid 2px black;
+    margin: 0 auto;
+    margin-left: 50px;
+}
+#playerOne{
+    text-align: center;
+}
+#playerTwo{
+    text-align: center;
+}
+#chatBox{
+    margin: 0 auto;
+    overflow-y: auto;
+    height: 200px;
+    width: 400px;
+    border: solid 2px black;
+}
+#choices{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between
+}

@@ -9,20 +9,46 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-    <form>
+
+<div id = content>
+    <p id="instructions">Instructions:</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat maxime, veritatis deserunt consequatur repudiandae at architecto eos non expedita incidunt aperiam consequuntur nam facere hic iure ut. Incidunt, totam magnam!</p>
+    <form id="usernameForm">
         <div class="form-group">
-                <label for="role">Username</label>
+                <label for="Username">Username</label>
                 <input type="text" class="form-control" id="Username" placeholder="Username">
         </div>
             
         <button type="submit" class="btn btn-primary btnPosition" id="submit">Submit</button>
     </form>
-
+<div id="playerWrap">
+    <div id = 'pOneBtn'>
     <button id="playerOne">player One</button>
+    </div>
+    <div id = 'pTwoBtn'>
     <button id="playerTwo">Player Two</button>
+    </div>
+</div>
+<div id="choices">
     <button id="rock">Rock</button>
     <button id="paper">paper</button>
     <button id="scissors">scissors</button>
+</div>
+
+
+
+    <div id = chatBox>
+        <dl id="textbox"></dl>
+    </div>
+    <form>
+        <div class="form-group">
+                    <label for="chat"></label>
+                    <input type="text" class="form-control" id="Username" placeholder="Username">
+        </div>           
+        <button type="submit" class="btn btn-primary btnPosition" id="chatbBtn">send</button>
+    </form>
+
+</div>
 
 
 
