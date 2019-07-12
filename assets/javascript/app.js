@@ -19,6 +19,23 @@ var firebaseConfig = {
   let playerPick;
   let enemyPick;
   let chat;
+//erases the players choice for a next round
+  function eraseChoice(){
+
+    database.ref().child(playerNum +'/PlayerChoice').remove();
+    database.ref().child(enemy + '/PlayerChoice').remove();
+  };
+//updates the database with the results
+  function winLoseUpdate(){
+    database.ref(enemy).update({
+        Result: 'You Lose!'
+    })
+    database.ref(playerNum).update({
+        Result: 'You Win!'
+    })
+
+  }
+
 
 //sets function to decide who wins and loses
   function winLose(){
@@ -30,33 +47,22 @@ var firebaseConfig = {
           database.ref(playerNum).update({
               Result: 'You Tied!'
           })
+         setTimeout(eraseChoice(), 2000);
           return;
       }
       if(playerPick === 'rock' && enemyPick === 'scissor'){
-        database.ref(enemy).update({
-            Result: 'You Lose!'
-        })
-        database.ref(playerNum).update({
-            Result: 'You Win!'
-        })
+        winLoseUpdate();
+        setTimeout(eraseChoice(), 2000);
           return;
       }
       if (playerPick === 'paper' && enemyPick === 'rock'){
-        database.ref(enemy).update({
-            Result: 'You Lose!'
-        })
-        database.ref(playerNum).update({
-            Result: 'You Win!'
-        })
+        winLoseUpdate();
+        setTimeout(eraseChoice(), 2000);
           return;
       }
       if(playerPick === 'scissor' && enemyPick === 'rock'){
-        database.ref(enemy).update({
-            Result: 'You Lose!'
-        })
-        database.ref(playerNum).update({
-            Result: 'You Win!'
-        })
+        winLoseUpdate();
+        setTimeout(eraseChoice(), 2000);
           return;
       }else{
         database.ref(enemy).update({
@@ -65,6 +71,7 @@ var firebaseConfig = {
         database.ref(playerNum).update({
             Result: 'You Lose!'
         })
+        setTimeout(eraseChoice(), 2000);
           return;
       }
   }
@@ -82,7 +89,6 @@ var firebaseConfig = {
 
     database.ref('Users/' + Id).once('value', function(snapshot){
         player = snapshot.val().Username;
-        console.log(player);
     })
     database.ref('Users/' + Id).onDisconnect().remove();
     $('#Username').val('');
@@ -101,24 +107,19 @@ $('#playerOne').on('click', function(){
              });
              playerNum = 'PlayerOne';
              enemy = 'PlayerTwo';
-             console.log(playerNum + enemy);
              database.ref('PlayerOne').onDisconnect().set('null');
              database.ref('PlayerOne').onDisconnect().remove();
 //sets listener once the variable are defined
              database.ref(`${playerNum}/Result`).on('value', function(snap){
-                console.log('outisde')
                 if(snap.exists()){
                     $(`#${playerNum}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
-                    console.log('worked');
                     return;
                 }
             })
 
              database.ref(`${enemy}/Result`).on('value', function(snap){
-                console.log(`${enemy}/Result`);
                 if(snap.exists()){
                     $(`#${enemy}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
-                    console.log('worked');
                     return;
                 }
             })
@@ -132,7 +133,6 @@ $('#playerOne').on('click', function(){
 $('#playerTwo').on('click', function(){
     database.ref('PlayerTwo').once('value' ,function(snap){
         if(snap.exists()){
-            console.log('already chosen');
             $('#alert2').fadeIn(300).delay(1500).fadeOut(400);
             return;
         }else{
@@ -141,23 +141,18 @@ $('#playerTwo').on('click', function(){
              });
              playerNum = 'PlayerTwo';
              enemy = 'PlayerOne'
-             console.log(playerNum + enemy);
              database.ref('PlayerTwo').onDisconnect().set('null');
              database.ref('PlayerTwo').onDisconnect().remove();
 //sets listener once the variable are defined
              database.ref(`${playerNum}/Result`).on('value', function(snap){
-                console.log('outisde')
                 if(snap.exists()){
                     $(`#${playerNum}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
-                    console.log('worked');
                     return;
                 }
             })
              database.ref(`${enemy}/Result`).on('value', function(snap){
-                console.log(`${enemy}/Result`);
                 if(snap.exists()){
                     $(`#${enemy}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
-                    console.log('worked');
                     return;
                 }
             })
@@ -233,7 +228,6 @@ $('#chatBtn').on('click', function(e){
 
 })
 database.ref('Chat').on('child_added', function(snap){
-    console.log(snap.val());
         $('#chatBox').append(snap.val().ChatUser + ': ' + snap.val().Text + '<br>');
 
 });
