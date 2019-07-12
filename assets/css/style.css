@@ -62,3 +62,6 @@ form{
 #alertResults{
     display: none;
 }
+#chatBox{
+    text-align: left;
+}

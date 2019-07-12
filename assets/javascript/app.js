@@ -18,6 +18,7 @@ var firebaseConfig = {
   let playerNum;
   let playerPick;
   let enemyPick;
+  let chat;
 
 //sets function to decide who wins and loses
   function winLose(){
@@ -121,6 +122,7 @@ $('#playerOne').on('click', function(){
                     return;
                 }
             })
+
         }
     })
 
@@ -159,6 +161,7 @@ $('#playerTwo').on('click', function(){
                     return;
                 }
             })
+
 
         }
     })
@@ -218,6 +221,22 @@ $('#scissors').on('click', function(){
 
 })
 
+$('#chatBtn').on('click', function(e){
+    e.preventDefault();
+    chat = $('#chatInput').val().trim();
+    
+    database.ref('Chat').push({
+        ChatUser: player,
+        Text: chat
+    })
+    database.ref('Chat').onDisconnect().remove();
+
+})
+database.ref('Chat').on('child_added', function(snap){
+    console.log(snap.val());
+        $('#chatBox').append(snap.val().ChatUser + ': ' + snap.val().Text + '<br>');
+
+});
 
 
 
@@ -238,6 +257,4 @@ database.ref('PlayerTwo/PlayerName').on('value', function(snap){
         return;
     }
     $('#playerTwoName').html(snap.val()).show();
-
-
 })
