@@ -76,7 +76,7 @@ var firebaseConfig = {
       }
   }
 
-
+//submit button sends username input to database and then pulls down the users name
   $('#submit').on('click', function(e){
     e.preventDefault();
     let user = $('#Username').val().trim();
@@ -161,7 +161,7 @@ $('#playerTwo').on('click', function(){
         }
     })
 })
-
+//updates database with player choice and pulls the enemies choice
 $('#rock').on('click', function(){
     playerPick = 'rock';
     database.ref(playerNum).update({
@@ -180,7 +180,7 @@ $('#rock').on('click', function(){
 
 })
 
-
+//updates database with player choice and pulls the enemies choice
 $('#paper').on('click', function(){
     playerPick = 'paper';
     database.ref(playerNum).update({
@@ -197,7 +197,7 @@ $('#paper').on('click', function(){
 
 
 })
-
+//updates database with player choice and pulls the enemies choice
 $('#scissors').on('click', function(){
     playerPick = 'scissors';
     database.ref(playerNum).update({
@@ -215,7 +215,7 @@ $('#scissors').on('click', function(){
 
 
 })
-
+//sends the chat input tot the database and pulls it down into the chat box
 $('#chatBtn').on('click', function(e){
     e.preventDefault();
     chat = $('#chatInput').val().trim();
@@ -225,17 +225,19 @@ $('#chatBtn').on('click', function(e){
         Text: chat
     })
     database.ref('Chat').onDisconnect().remove();
+    $('#chatInput').val('');
 
 })
+
+
 database.ref('Chat').on('child_added', function(snap){
         $('#chatBox').append(snap.val().ChatUser + ': ' + snap.val().Text + '<br>');
-
 });
 
 
 
 
-
+//updates the players name if it exists
 database.ref('PlayerOne/PlayerName').on('value', function(snap){
     if(snap.val() == null){
         $('#playerOneName').hide();
@@ -245,6 +247,7 @@ database.ref('PlayerOne/PlayerName').on('value', function(snap){
 
 
 })
+//update player name if it exists
 database.ref('PlayerTwo/PlayerName').on('value', function(snap){
     if(snap.val() == null){
         $('#playerTwoName').hide();
