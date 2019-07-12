@@ -14,34 +14,57 @@ var firebaseConfig = {
 // variables
   let Id;
   let player;
-  let playerNum;
   let enemy;
+  let playerNum;
   let playerPick;
   let enemyPick;
 
+//sets function to decide who wins and loses
   function winLose(){
-      console.log(`player pick ${playerPick}, enemy pick ${enemyPick}`);
       if(playerPick == enemyPick){
-          console.log('tie');
+          //updates both players results
+          database.ref(enemy).update({
+              Result: 'You Tied!'
+          })
+          database.ref(playerNum).update({
+              Result: 'You Tied!'
+          })
           return;
       }
       if(playerPick === 'rock' && enemyPick === 'scissor'){
-          console.log('win')
+        database.ref(enemy).update({
+            Result: 'You Lose!'
+        })
+        database.ref(playerNum).update({
+            Result: 'You Win!'
+        })
           return;
-      }else{
-          console.log('lose');
       }
       if (playerPick === 'paper' && enemyPick === 'rock'){
-          console.log('win')
+        database.ref(enemy).update({
+            Result: 'You Lose!'
+        })
+        database.ref(playerNum).update({
+            Result: 'You Win!'
+        })
           return;
-      }else{
-          console.log('lose');
       }
       if(playerPick === 'scissor' && enemyPick === 'rock'){
-          console.log('win');
+        database.ref(enemy).update({
+            Result: 'You Lose!'
+        })
+        database.ref(playerNum).update({
+            Result: 'You Win!'
+        })
           return;
       }else{
-          console.log('lose');
+        database.ref(enemy).update({
+            Result: 'You Win!'
+        })
+        database.ref(playerNum).update({
+            Result: 'You Lose!'
+        })
+          return;
       }
   }
 
@@ -60,7 +83,7 @@ var firebaseConfig = {
         player = snapshot.val().Username;
         console.log(player);
     })
-
+    database.ref('Users/' + Id).onDisconnect().remove();
     $('#Username').val('');
 });
 
@@ -69,7 +92,7 @@ $('#playerOne').on('click', function(){
 
     database.ref('PlayerOne').once('value' ,function(snap){
         if(snap.exists()){
-            $('#pOneBtn').append('chosen');
+            $('#alert1').fadeIn(300).delay(1500).fadeOut(400);
             return;
         }else{
             database.ref('PlayerOne').set({
@@ -78,7 +101,26 @@ $('#playerOne').on('click', function(){
              playerNum = 'PlayerOne';
              enemy = 'PlayerTwo';
              console.log(playerNum + enemy);
+             database.ref('PlayerOne').onDisconnect().set('null');
              database.ref('PlayerOne').onDisconnect().remove();
+//sets listener once the variable are defined
+             database.ref(`${playerNum}/Result`).on('value', function(snap){
+                console.log('outisde')
+                if(snap.exists()){
+                    $(`#${playerNum}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
+                    console.log('worked');
+                    return;
+                }
+            })
+
+             database.ref(`${enemy}/Result`).on('value', function(snap){
+                console.log(`${enemy}/Result`);
+                if(snap.exists()){
+                    $(`#${enemy}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
+                    console.log('worked');
+                    return;
+                }
+            })
         }
     })
 
@@ -89,6 +131,7 @@ $('#playerTwo').on('click', function(){
     database.ref('PlayerTwo').once('value' ,function(snap){
         if(snap.exists()){
             console.log('already chosen');
+            $('#alert2').fadeIn(300).delay(1500).fadeOut(400);
             return;
         }else{
             database.ref('PlayerTwo').set({
@@ -97,7 +140,26 @@ $('#playerTwo').on('click', function(){
              playerNum = 'PlayerTwo';
              enemy = 'PlayerOne'
              console.log(playerNum + enemy);
+             database.ref('PlayerTwo').onDisconnect().set('null');
              database.ref('PlayerTwo').onDisconnect().remove();
+//sets listener once the variable are defined
+             database.ref(`${playerNum}/Result`).on('value', function(snap){
+                console.log('outisde')
+                if(snap.exists()){
+                    $(`#${playerNum}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
+                    console.log('worked');
+                    return;
+                }
+            })
+             database.ref(`${enemy}/Result`).on('value', function(snap){
+                console.log(`${enemy}/Result`);
+                if(snap.exists()){
+                    $(`#${enemy}Result`).html(snap.val()).fadeIn(300).delay(1500).fadeOut(400);
+                    console.log('worked');
+                    return;
+                }
+            })
+
         }
     })
 })
@@ -112,9 +174,70 @@ $('#rock').on('click', function(){
 
         if(snap.exists()){
             enemyPick = snap.val();
+            $(`${enemy}Choice`).html(snap.val());
             winLose();
         }
     })
 
-console.log(`enemy choice ${enemyPick}, your choice ${playerPick}`);
+
+})
+
+
+$('#paper').on('click', function(){
+    playerPick = 'paper';
+    database.ref(playerNum).update({
+        PlayerChoice: 'paper'
+    })
+
+    database.ref(`${enemy}/PlayerChoice`).once('value', function(snap){
+
+        if(snap.exists()){
+            enemyPick = snap.val();
+            winLose();
+        }
+    })
+
+
+})
+
+$('#scissors').on('click', function(){
+    playerPick = 'scissors';
+    database.ref(playerNum).update({
+        PlayerChoice: 'scissors'
+    })
+
+    database.ref(`${enemy}/PlayerChoice`).once('value', function(snap){
+
+        if(snap.exists()){
+            enemyPick = snap.val();
+            $(`${enemy}Choice`).html(snap.val());
+            winLose();
+        }
+    })
+
+
+})
+
+
+
+
+
+
+database.ref('PlayerOne/PlayerName').on('value', function(snap){
+    if(snap.val() == null){
+        $('#playerOneName').hide();
+        return;
+    }
+    $('#playerOneName').html(snap.val()).show();
+
+
+})
+database.ref('PlayerTwo/PlayerName').on('value', function(snap){
+    if(snap.val() == null){
+        $('#playerTwoName').hide();
+        return;
+    }
+    $('#playerTwoName').html(snap.val()).show();
+
+
 })

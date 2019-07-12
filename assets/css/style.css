@@ -53,3 +53,12 @@ form{
     margin-bottom: 10px;
     justify-content: space-between
 }
+#alert1{
+    display: none;
+}
+#alert2{
+    display: none;
+}
+#alertResults{
+    display: none;
+}

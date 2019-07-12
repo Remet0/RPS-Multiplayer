@@ -21,32 +21,54 @@
             
         <button type="submit" class="btn btn-primary btnPosition" id="submit">Submit</button>
     </form>
-<div id="playerWrap">
-    <div id = 'pOneBtn'>
-    <button id="playerOne">player One</button>
-    </div>
-    <div id = 'pTwoBtn'>
-    <button id="playerTwo">Player Two</button>
-    </div>
-</div>
-<div id="choices">
-    <button id="rock">Rock</button>
-    <button id="paper">paper</button>
-    <button id="scissors">scissors</button>
-</div>
 
+
+    <div id="playerWrap">
+
+
+        <div id = 'pOneBtn'>
+            <button id="playerOne">player One</button>
+            <div id = 'playerOneName'></div>
+            <div id = PlayerOneChoice></div>
+            <div id="PlayerOneResult"></div>
+            <div id= alert1>Player Already Choosen</div>
+            
+        </div>
+
+
+
+        <div id = 'pTwoBtn'>
+            <button id="playerTwo">Player Two</button>
+            <div id = 'playerTwoName'></div>
+            <div id = PlayerTwoChoice></div>
+            <div id="PlayerTwoResult"></div>
+            <div id= alert2>Player Already Choosen</div>
+        </div>
+
+
+    </div>
+
+
+
+    <div id="choices">
+        <button id="rock">Rock</button>
+        <button id="paper">paper</button>
+        <button id="scissors">scissors</button>
+    </div>
 
 
     <div id = chatBox>
-        <dl id="textbox"></dl>
+        
     </div>
-    <form>
-        <div class="form-group">
+
+
+        <form>
+            <div class="form-group">
                     <label for="chat"></label>
-                    <input type="text" class="form-control" id="Username" placeholder="Username">
-        </div>           
-        <button type="submit" class="btn btn-primary btnPosition" id="chatbBtn">send</button>
-    </form>
+                    <input type="text" class="form-control" id="Username" placeholder="Message">
+            </div>           
+         <button type="submit" class="btn btn-primary btnPosition" id="chatbBtn">send</button>
+        </form>
 
 </div>
 
